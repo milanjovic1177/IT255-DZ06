@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Korisceni web service: https://reqres.in -->
+    <!-- Po uzoru na: https://www.templatemonster.com/demo/58200.html -->
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--    <script src="script.js"></script>-->
+
+    <script>
+        $(document).ready(function() {
+            $("#button").click(function() {
+                var $user_id = $("#user_id").val();
+                
+                $.ajax({
+                    url: "https://reqres.in/api/users?id=" + $user_id,
+                    type: "GET",
+                    success: function(html){
+                        var obj = html.data;
+                        $("#id").empty();
+                        $("#name").empty();
+                        $("#email").empty();
+                        $("#avatar").attr({ "src": "" });
+                        
+                        $("#id").append("ID: " + obj.id);
+                        $("#name").append("Name: " + obj.first_name + " " + obj.last_name);
+                        $("#email").append("Email: " + obj.email);
+                        $("#avatar").attr({ "src": obj.avatar });
+                    },
+                    error: function(result) {
+                        $("#id").empty();
+                        $("#name").empty();
+                        $("#email").empty();
+                        $("#avatar").attr({ "src": "" });
+                        
+                        $("#id").append("Korisnik sa ID-em : " + $user_id + " ne postoji!");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <title>IT255-DZ06</title>
+</head>
+
+<body>
+    <div id="controls">
+        <form id="forma">
+            <input type="number" name="id" id="user_id" placeholder="Unesite ID korisnika">
+        </form>
+        <button id="button">Ucitaj korisnika</button>
+    </div>
+    
+    <br><br>
+
+    <div id="content">
+        <div id="id"></div>
+        <div id="name"></div>
+        <div id="email"></div>
+        <img id="avatar"></img>
+    </div>
+</body>
+</html>
